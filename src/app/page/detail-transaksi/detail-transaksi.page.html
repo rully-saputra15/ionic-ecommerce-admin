@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>detail-transaksi</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="data">
+    <ion-grid>
+      <ion-row *ngFor="let val of data">
+        <ion-col>
+          {{val.namaBarang}}
+        </ion-col>
+        <ion-col>
+          {{val.harga}}
+        </ion-col>
+        <ion-col>
+          {{val.jumlahBeli}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

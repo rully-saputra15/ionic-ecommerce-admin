@@ -11,6 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class DetailTransaksiPage implements OnInit {
   id;
   status;
+  nama;
+  total;
   data;
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +24,8 @@ export class DetailTransaksiPage implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get('id');
     this.status = this.route.snapshot.paramMap.get('status');
+    this.nama = this.route.snapshot.paramMap.get('nama');
+    this.total = this.route.snapshot.paramMap.get('total');
     this.showDetail();
   }
   async showDetail(){

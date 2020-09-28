@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="nama">{{nama}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="nama">
+    <ion-grid class="ion-margin">
+      <ion-row>
+        <ion-col>
+          Harga Pokok : 
+        </ion-col>
+        <ion-col>
+          <ion-input type="number" value="{{hargaPokok}}"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Harga Level 1 :
+        </ion-col>
+        <ion-col>
+          <ion-input type="number" value="{{hargaLevel1}}"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Harga Level 2 :
+        </ion-col>
+        <ion-col>
+          <ion-input type="number" value="{{hargaLevel2}}"></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!foto">
+        <ion-col >
+          <ion-img style="width:auto;height:360px;align-items: center;"[src]="this.restApi.urlPlaceholder" (click)="presentActionSheetFoto()"></ion-img>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="foto">
+        <ion-col >
+          <ion-img style="width:auto;height:360px;align-items: center;"[src]="this.restApi.urlPhoto+foto" (click)="presentActionSheetFoto()"></ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

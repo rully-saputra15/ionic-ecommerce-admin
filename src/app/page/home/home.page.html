@@ -121,7 +121,7 @@
     </ion-card>
   </div>
   <div *ngIf="data">
-    <ion-card class="ion-margin" *ngFor="let val of data" routerLink="/detail-transaksi/{{val.id}}/{{val.statusUser}}">
+    <ion-card class="ion-margin" *ngFor="let val of data" routerLink="/detail-transaksi/{{val.id}}/{{val.statusUser}}/{{val.nama}}/{{val.total_harga}}">
       <h6 *ngIf="val.status == '0'"
       style="font-size: small; background-color: #FEC002; text-align: center; margin: 0px; padding: 10px; color: black;"
     >
@@ -172,3 +172,18 @@
     </ion-card>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs >
+      <ion-tab-bar slot="bottom" color="secondary">
+        <ion-tab-button routerLink="/all-barang">
+          <ion-label>All Items</ion-label>
+          <ion-icon name="document" color="light"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+    
+  </ion-toolbar>
+  
+</ion-footer>
+

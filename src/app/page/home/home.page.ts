@@ -1,6 +1,6 @@
 import { RestapiService } from './../../service/restapi.service';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +9,24 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
   data;
+  backSubscription;
   constructor(private restApi: RestapiService,
-              private alertCtrl: AlertController) { }
+              private alertCtrl: AlertController,
+              private platform: Platform) { }
 
   ngOnInit() {
   }
   ionViewDidEnter(){
     this.getAllData();
+    this.disableBackPage();
+  }
+  disableBackPage(){
+    this.backSubscription = this.platform.backButton.subscribeWithPriority(9999,() => {
+
+    });
+  }
+  ionViewWillLeave(){
+   this.backSubscription.unsubscribe();
   }
   async getAllData(){
     await this.restApi.getAllTransaksi()

@@ -1,23 +1,44 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>detail-transaksi</ion-title>
+    <ion-title>Detail Transaksi</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div *ngIf="data">
-    <ion-grid>
-      <ion-row *ngFor="let val of data">
+    <ion-grid class="ion-margin">
+      <ion-row *ngIf="nama">
         <ion-col>
+          <h4>Nama : <b>{{nama}}</b></h4>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="total">
+        <ion-col>
+          <p>Total : <b>{{total |currency:"Rp ":"symbol":"3.0"}}</b></p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="col-item"size="6">
+          <b>Nama Barang</b>
+        </ion-col>
+        <ion-col class="col-item"size="3">
+          <b>Harga</b>
+        </ion-col>
+        <ion-col class="col-item"size="3">
+          <b>Jumlah</b>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let val of data">
+        <ion-col class="col-item"size="6">
           {{val.namaBarang}}
         </ion-col>
-        <ion-col>
-          {{val.harga}}
+        <ion-col class="col-item" size="3">
+          {{val.harga |currency:"Rp ":"symbol":"3.0"}}
         </ion-col>
-        <ion-col>
+        <ion-col class="col-item" size="3">
           {{val.jumlahBeli}}
         </ion-col>
       </ion-row>

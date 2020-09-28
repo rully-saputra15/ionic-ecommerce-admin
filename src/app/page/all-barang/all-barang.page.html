@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar (ionChange)="search($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let tmp of barang" lines="full" routerLink="/detail-barang/{{tmp.id}}/{{tmp.nama_barang}}/{{tmp.harga_pokok}}/{{tmp.harga_level_1}}/{{tmp.harga_level_2}}/{{tmp.foto}}">
+      <ion-avatar slot="start">
+        <ion-img *ngIf="!tmp.foto" [src]="this.restApi.urlPlaceholder"></ion-img>
+        <ion-img *ngIf="tmp.foto" [src]="this.restApi.urlPhoto+tmp.foto"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{tmp.nama_barang}}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+    loadingSpinner="circles"
+    loadingText="Loading more data..." >
+  </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

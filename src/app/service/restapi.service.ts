@@ -2,25 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError, tap, map, retry } from 'rxjs/operators';
-const apiUrlAllTransaksi = 'http://192.168.1.8/quimtafari/api/product/read_all_transaksi_admin.php';
-const apiUrlReadBarangID = 'http://192.168.1.8/quimtafari/api/product/read_barang.php';
-const apiUrlReadAllBarang = 'http://192.168.1.8/quimtafari/api/product/read_all_barang_admin.php';
-const apiUrlTransaksiById = 'http://192.168.1.8/quimtafari/api/product/read_transaksi_admin.php';
-const apiUrlLogin = 'http://192.168.1.8/quimtafari/api/product/login_admin.php';
-const apiUrlEditBarang ='http://192.168.1.8/quimtafari/api/product/edit_data_barang_admin.php';
-/*
-const apiUrlLogin = 'http://adminecommerce.online/api/product/loginAdmin.php';
-const apiUrlAllTransaksi = 'http://adminecommerce.online/api/product/readAllTransaksiAdmin.php';
-const apiUrlTransaksiById = 'http://adminecommerce.online/api/product/readTransaksiAdmin.php';
-const apiUrlReadAllBarang = 'http://adminecommerce.online/api/product/read_all_barang.php';
-const apiUrlReadBarangID = 'http://adminecommerce.online/api/product/read_barang.php';*/
+/*const apiUrlAllTransaksi = 'http://192.168.1.7/quimtafari/api/product/read_all_transaksi_admin.php';
+const apiUrlReadBarangID = 'http://192.168.1.7/quimtafari/api/product/read_barang.php';
+const apiUrlReadAllBarang = 'http://192.168.1.7/quimtafari/api/product/read_all_barang_admin.php';
+const apiUrlTransaksiById = 'http://192.168.1.7/quimtafari/api/product/read_transaksi_admin.php';
+const apiUrlLogin = 'http://192.168.1.7/quimtafari/api/product/login_admin.php';
+const apiUrlEditBarang ='http://192.168.1.7/quimtafari/api/product/edit_data_barang_admin.php';*/
+
+//ionic cordova plugin add cordova-plugin-proguard
+// proguard for performance
+const apiUrlLogin = 'http://adminecommerce.online/api/product/login_admin.php';
+const apiUrlAllTransaksi = 'http://adminecommerce.online/api/product/read_all_transaksi_admin.php';
+const apiUrlTransaksiById = 'http://adminecommerce.online/api/product/read_transaksi_admin.php';
+const apiUrlReadAllBarang = 'http://adminecommerce.online/api/product/read_all_barang_admin.php';
+const apiUrlReadBarangID = 'http://adminecommerce.online/api/product/read_barang.php';
+const apiUrlEditBarang = 'http://adminecommerce.online/api/product/edit_data_barang_admin.php';
 @Injectable({
   providedIn: 'root'
 })
 export class RestapiService {
   constructor(private http: HttpClient) { }
-  //public urlPhoto = 'http://adminecommerce.online/public/uploads/';
-  public urlPhoto = 'http://192.168.1.8/quimtafari/public/uploads/';
+  public urlPhoto = 'http://adminecommerce.online/public/uploads/';
+  //public urlPhoto = 'http://192.168.1.7/quimtafari/public/uploads/';
   public urlPlaceholder = '../../../assets/placeholder.jpg';
   signInWithUsername(data: any): Observable<any>{
     return this.http.post(apiUrlLogin, JSON.stringify(data))

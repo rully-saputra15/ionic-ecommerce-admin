@@ -1,10 +1,11 @@
 import { RestapiService } from './../../service/restapi.service';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ToastController, AlertController } from '@ionic/angular';
 import {File, IWriteOptions, FileEntry} from '@ionic-native/file/ngx';
+
 @Component({
   selector: 'app-detail-barang',
   templateUrl: './detail-barang.page.html',
@@ -18,8 +19,10 @@ export class DetailBarangPage implements OnInit {
   hargaLevel1;
   hargaLevel2;
   foto;
+  statusUpload : boolean;
   options: any;
-  
+  urlPlaceHolderDetailBarang ;
+  formData = new FormData();
   cameraOptions: CameraOptions = {
     quality: 20,
     destinationType: this.camera.DestinationType.FILE_URI,
@@ -32,7 +35,9 @@ export class DetailBarangPage implements OnInit {
     public actionSheetController: ActionSheetController,
     public imagePicker: ImagePicker,
     public file: File,
-    public restApi:RestapiService
+    public restApi:RestapiService,
+    public router: Router,
+    public AlertController: AlertController
     ) { }
 
   ngOnInit() {
@@ -42,6 +47,8 @@ export class DetailBarangPage implements OnInit {
     this.hargaLevel1 = this.route.snapshot.paramMap.get('hargaLevel1');
     this.hargaLevel2 = this.route.snapshot.paramMap.get('hargaLevel2');
     this.foto = this.route.snapshot.paramMap.get('foto');
+    this.urlPlaceHolderDetailBarang = '../../assets/placeholder.jpg';
+    this.statusUpload = false;
   }
   async presentActionSheetFoto(){
     const actionSheet = await this.actionSheetController.create({
@@ -64,9 +71,9 @@ export class DetailBarangPage implements OnInit {
     this.camera.getPicture(this.cameraOptions).then((imageData) => {
       // this.camera.DestinationType.FILE_URI gives file URI saved in local
       // this.camera.DestinationType.DATA_URL gives base64 URI
-      const tempFileName = imageData.substr(imageData.lastIndexOf('/')+1);
-      console.log(tempFileName);
       this.file.resolveLocalFilesystemUrl(imageData).then((entry : FileEntry) => {
+        this.urlPlaceHolderDetailBarang = entry.toInternalURL();
+        this.statusUpload = true;
         entry.file(file => {
           this.readFile(file);
         });
@@ -86,6 +93,9 @@ export class DetailBarangPage implements OnInit {
     };
     this.imagePicker.getPictures(this.options).then((results) => {
       this.file.resolveLocalFilesystemUrl(results[0]).then((entry : FileEntry) => {
+        this.statusUpload = true;
+        //this.urlPlaceHolderDetailBarang = entry.toInternalURL();
+        //console.log(this.urlPlaceHolderDetailBarang);
         entry.file(file => {
           this.readFile(file);
         });
@@ -100,15 +110,41 @@ export class DetailBarangPage implements OnInit {
       const imgBlob = new Blob([reader.result], {
         type: file.type
       });
-      const formData = new FormData();
-      formData.append('name',file.name);
-      formData.append('file',imgBlob,file.name);
-      formData.append('id',this.id);
-      this.restApi.uploadFoto(formData)
-      .subscribe(res => {
-        console.log(res);
-      })
+      this.formData.append('name', file.name);
+      this.formData.append('file', imgBlob,file.name);
+      this.formData.append('id',this.id);
+      this.formData.append('hargaPokok', this.hargaPokok);
+      this.formData.append('hargaLevel1', this.hargaLevel1);
+      this.formData.append('hargaLevel2', this.hargaLevel2);
     };
+    
     reader.readAsArrayBuffer(file);
+  }
+  uploadData(){
+    if(this.formData.has('name') === false){
+      this.formData.append('file', '');
+      this.formData.append('name', '');
+      console.log('masuk');
+    }
+    this.formData.append('id',this.id);
+    this.formData.append('hargaPokok',this.hargaPokok);
+    this.formData.append('hargaLevel1',this.hargaLevel1);
+    this.formData.append('hargaLevel2',this.hargaLevel2);
+    this.restApi.uploadFoto(this.formData)
+    .subscribe(res => {
+      this.presentAlertConfirmationEdit();
+      this.router.navigate(['./all-barang']);
+    },(err) => {
+      this.presentAlertConfirmationEdit();
+      this.router.navigate(['./all-barang']);
+    });
+  }
+  async presentAlertConfirmationEdit(){
+    const alert = await this.AlertController.create({
+      header:'Success!',
+      message:'Data updated',
+      buttons:['Oke']
+    });
+    alert.present();
   }
 }

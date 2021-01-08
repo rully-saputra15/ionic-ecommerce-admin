@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let tmp of barang" lines="full" routerLink="/detail-barang/{{tmp.id}}/{{tmp.nama_barang}}/{{tmp.harga_pokok}}/{{tmp.harga_level_1}}/{{tmp.harga_level_2}}/{{tmp.foto}}">
       <ion-avatar slot="start">

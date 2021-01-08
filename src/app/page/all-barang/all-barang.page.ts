@@ -64,7 +64,19 @@ export class AllBarangPage implements OnInit {
     });
   }
   }
-
+  doRefresh(ev){
+    setTimeout(async () => {
+      let data = {
+        status : 0
+      }
+      await this.restApi.getAllBarang(data)
+      .subscribe(res => {
+        this.barangLoaded = res;
+        this.initBarang();
+      });
+      ev.target.complete();
+    },1000)
+  }
   initBarang(){
     this.barang = [];
     for(let i = 0 ; i < this.i ; i++){

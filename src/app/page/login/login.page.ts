@@ -18,6 +18,11 @@ export class LoginPage implements OnInit {
               public storage: Storage) { }
 
   ngOnInit() {
+    this.storage.get('statusLogin').then((val)=>{
+      if(val !== null){
+        this.router.navigate(['./home'])
+      }
+    });
   }
   async login(form){
     const loading = await this.loadingCtrl.create({
